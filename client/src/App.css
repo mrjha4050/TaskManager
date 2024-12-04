@@ -12,3 +12,28 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+input {
+  padding: 10px;
+  margin: 10px 0;
+  width: 200px;
+  border: 1px solid #ccc;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}

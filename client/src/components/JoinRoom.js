@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const TestAPI = ({ user }) => {
-  const history = useHistory();
   const [newRoomName, setNewRoomName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [error, setError] = useState(null);
   const [rooms, setRooms] = useState([]);
-  const baseURL = 'http://localhost:5001/rooms';  
+  const baseURL = 'http://localhost:5001/rooms'; 
 
   const fetchRooms = async () => {
     try {
       const res = await axios.get(baseURL);
-      setRooms(res.data);   
+      setRooms(res.data);
       setError(null);
     } catch (err) {
       setError('Failed to fetch rooms.');
@@ -32,38 +30,44 @@ const TestAPI = ({ user }) => {
         createdBy: user.email,
       });
       setRooms([...rooms, res.data]);   
-      setNewRoomName('');   
+      setNewRoomName('');  
       setError(null);
     } catch (err) {
       setError('Failed to create room.');
     }
   };
 
+  // Join room
   const handleJoinRoom = async () => {
     if (!roomCode) {
       setError('Please provide a room code.');
       return;
     }
-  
+
     try {
-      const response = await axios.post(`http://localhost:5001/rooms/join/${roomCode}`, {
+      const token = await user.getIdToken();   
+      console.log('Joining room with:', { roomCode, token, username: user.email });
+
+      const res = await axios.post(`${baseURL}/join/${roomCode}`, {
+        token: token,           
         username: user.email,   
       });
-  
-      setRooms([...rooms, response.data]);  
-      setRoomCode('');   
+
+      setRooms([...rooms, res.data]);
+      setRoomCode(''); 
       setError(null);     
-      history.push(`/kanban/${roomCode}`); 
     } catch (err) {
-      console.error('Error while joining room:', err);  // Log the error
-      setError(err.response?.data?.error || 'Failed to join room.');
+      console.error('Error while joining room:', err);   
+      setError(err.response?.data?.error || 'Failed to join room.');  // Display error message
       setRoomCode('');  
     }
   };
+
   return (
     <div>
       <h1>Manage Rooms</h1>
 
+      {/* Show the list of rooms */}
       <div>
         <h3>Rooms List</h3>
         <button onClick={fetchRooms}>Fetch Rooms</button>
@@ -75,7 +79,6 @@ const TestAPI = ({ user }) => {
           ))}
         </ul>
       </div>
-
       <div>
         <h3>Create a Room</h3>
         <input
