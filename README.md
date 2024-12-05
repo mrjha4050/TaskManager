@@ -66,3 +66,33 @@ To exit the board:
 Error Handling
 
 ## Creating tasks is currently not happening due to an ongoing issue with Axios errors. Despite multiple attempts to resolve this, it seems I’ll need more time and additional research to fully address the problem. I have tried various troubleshooting methods without success.
+
+ # when i try to push on github this error is displayed
+
+remote: Resolving deltas: 100% (19/19), completed with 7 local objects.
+remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote:
+remote: - GITHUB PUSH PROTECTION
+remote:   —————————————————————————————————————————
+remote:     Resolve the following violations before pushing again
+remote:
+remote:     - Push cannot contain secrets
+remote:
+remote:
+remote:      (?) Learn how to resolve a blocked push
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+remote:
+remote:
+remote:       —— Google Cloud Service Account Credentials ——————————
+remote:        locations:
+remote:          - commit: 6f56ead7295ac9bfc2543cca39a8f955104ba793
+remote:            path: backend/Taskmanager Firebase Admin SDK.json:1
+remote:
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/mrjha4050/Task_management/security/secret-scanning/unblock-secret/2plgfJ51cXs2s4mbTdLr43BiMIv
+remote:
+remote:
+remote:
+To https://github.com/mrjha4050/Task_management.git
+ ! [remote rejected] main -> main (push declined due to repository rule violations)
+error: failed to push some refs to 'https://github.com/mrjha4050/Task_management.git'
