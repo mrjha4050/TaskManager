@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 
 const TestAPI = ({ user }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [newRoomName, setNewRoomName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [error, setError] = useState(null);
@@ -53,9 +53,9 @@ const TestAPI = ({ user }) => {
       setRooms([...rooms, response.data]);  
       setRoomCode('');   
       setError(null);     
-      history.push(`/kanban/${roomCode}`); 
+      navigate(`/kanban/${roomCode}`); 
     } catch (err) {
-      console.error('Error while joining room:', err);  // Log the error
+      console.error('Error while joining room:', err);  
       setError(err.response?.data?.error || 'Failed to join room.');
       setRoomCode('');  
     }

@@ -67,7 +67,6 @@ const TestAPI = ({ user }) => {
     <div>
       <h1>Manage Rooms</h1>
 
-      {/* Show the list of rooms */}
       <div>
         <h3>Rooms List</h3>
         <button onClick={fetchRooms}>Fetch Rooms</button>

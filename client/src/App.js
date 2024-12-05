@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 import TestAPI from './components/TestAPI';
 import Login from './components/Login';
+import KanbanBoard from './components/KanbanBoard';  
 
 function App() {
   const [user, setUser] = useState(null);   
 
   const handleLogin = (userData) => {
-    setUser(userData);   
+    setUser(userData);  
   };
 
   const handleLogout = () => {
@@ -20,13 +21,22 @@ function App() {
       <Router>
         <div>
           {!user ? (
-            <Login onLogin={handleLogin} />  // Show Login component if not logged in
+            <Login onLogin={handleLogin} />   
           ) : (
-            <div>
-              <h1>Welcome, {user.email}</h1>
-              <button onClick={handleLogout}>Logout</button>
-              <TestAPI user={user} />  {/* Show TestAPI component if logged in */}
-            </div>
+            <Routes>
+              <Route path="/" element={<TestAPI user={user} />} />
+              <Route path="/kanban/:roomCode" element={<KanbanBoard user={user} />} />
+              <Route
+                path="*"
+                element={
+                  <div>
+                    <h1>Welcome, {user.email}</h1>
+                    <button onClick={handleLogout}>Logout</button>
+                    <TestAPI user={user} />
+                  </div>
+                }
+              />
+            </Routes>
           )}
         </div>
       </Router>

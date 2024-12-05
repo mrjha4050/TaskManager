@@ -1,43 +1,35 @@
+// backened/routes/tasks.js 
 const express = require('express');
-const router = express.Router();
 const Task = require('../models/Task');
-
-router.get('/:roomCode', async (req, res) => {
-  try {
-    const tasks = await Task.find({ roomCode: req.params.roomCode });
-    res.json(tasks);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+const router = express.Router();
 
 router.post('/', async (req, res) => {
-  const { roomCode, title, description } = req.body;
-  try {
-    const newTask = new Task({ roomCode, title, description });
-    await newTask.save();
-    res.status(201).json(newTask);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    const { roomId, title, description, status } = req.body;
+    console.log('Creating task with:', req.body);
+
+    if (!roomId || !title) {
+        console.log('Validation failed: Missing room ID or title');
+        return res.status(400).json({ message: 'Room ID and title are required.' });
+    }
+
+    try {
+        const task = new Task({ roomId, title, description, status });
+        const newTask = await task.save();
+        console.log('Task created:', newTask);
+        res.status(201).json(newTask);
+    } catch (error) {
+        console.error('Error saving task:', error);
+        res.status(500).json({ message: 'Failed to create a new task', error: error.message });
+    }
 });
 
-router.put('/:id', async (req, res) => {
-  try {
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(task);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.delete('/:id', async (req, res) => {
-  try {
-    await Task.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Task deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+router.get('/', async (req, res) => {
+    try {
+        const tasks = await Task.find({});
+        res.json(tasks);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch tasks', error: error.message });
+    }
 });
 
 module.exports = router;
